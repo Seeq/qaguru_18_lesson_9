@@ -1,6 +1,7 @@
 from time import sleep
 from selene import browser, be, have
 import os
+from lesson_9.data.users import User
 
 
 class RegistrationPage:
@@ -47,8 +48,13 @@ class RegistrationPage:
         self.user_email.type(value)
         return self
 
-    def select_gender(self):
-        browser.element('[for="gender-radio-1"]').click()
+    def select_gender(self,gender):
+        gender_mapping = {
+            "Male": '[for="gender-radio-1"]',
+            "Female": '[for="gender-radio-2"]',
+            "Other": '[for="gender-radio-3"]',
+        }
+        browser.element(gender_mapping[gender]).click()
         return self
 
     def fill_user_phone(self, value):
@@ -59,14 +65,18 @@ class RegistrationPage:
         browser.element('#subjectsInput').type(value).press_enter()
         return self
 
-    def fill_hobbies(self):
-        browser.element('[for="hobbies-checkbox-1"]').click()
-        browser.element('[for="hobbies-checkbox-2"]').click()
-        browser.element('[for="hobbies-checkbox-3"]').click()
+    def fill_hobbies(self,hobbies):
+        hobby_mapping = {
+            "Sports": '[for="hobbies-checkbox-1"]',
+            "Reading": '[for="hobbies-checkbox-2"]',
+            "Music": '[for="hobbies-checkbox-3"]',
+        }
+        for hobby in hobbies.split(", "):
+            browser.element(hobby_mapping[hobby]).click()
         return self
 
-    def upload_img(self):
-        file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'tests', 'files', 'meme.png'))
+    def upload_img(self, picture):
+        file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'tests', 'files', picture))
         browser.element('input[type="file"]').set_value(file_path)
         return self
 
@@ -74,18 +84,34 @@ class RegistrationPage:
         browser.element('#currentAddress').type(value)
         return self
 
-    def select_state(self):
+    def select_state(self, value):
         browser.element('#state').click()
-        browser.element('#react-select-3-option-3').click()
+        browser.element('#react-select-3-option-3').click(value)
         return self
 
-    def select_city(self):
+    def select_city(self, value):
         browser.element('#city').click()
-        browser.element('#react-select-4-option-1').click()
+        browser.element('#react-select-4-option-1').click(value)
         return self
 
     def click_submit_button(self):
         browser.element('#submit').click()
+        return self
+
+    def registration(self, user: User):
+        self.fill_first_name(user.first_name)
+        self.fill_last_name(user.last_name)
+        self.fill_email(user.email)
+        self.select_gender(user.gender)
+        self.user_phone(user.phone_number)
+        self.fill_date_of_birth(user.birth_year, user.birth_month, user.birth_day)
+        self.fill_subjects(user.subjects)
+        self.fill_hobbies(user.hobbies)
+        self.upload_img(user.picture)
+        self.fill_address(user.address)
+        self.select_state(user.state)
+        self.select_city(user.city)
+        self.click_submit_button()
         return self
 
 
