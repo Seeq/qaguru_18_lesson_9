@@ -1,6 +1,7 @@
-import pytest, os
+import pytest
 from selene import browser
 from selenium import webdriver
+
 
 @pytest.fixture(scope='function', autouse=True)
 def setup_browser():

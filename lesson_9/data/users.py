@@ -20,6 +20,7 @@ class User:
 
 
 user = User(first_name='Sergey', last_name='Labov', email='qaguru@nosuchdomain.net',
-            gender='Male', phone_number='9111002030', birth_year='1989', birth_month='7', birth_day='017',
-            subjects='English', hobbies='Sports, Reading, Music', picture='meme.png', address='First street, Second house, Third app.', state='Rajasthan',
+            gender='Male', phone_number='9111002030', birth_year='1989', birth_month='August', birth_day='17',
+            subjects='English', hobbies='Sports, Reading, Music', picture='meme.png',
+            address='First street, Second house, Third app.', state='Rajasthan',
             city='Jaiselmer')

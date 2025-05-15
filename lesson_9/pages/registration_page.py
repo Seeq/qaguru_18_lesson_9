@@ -1,6 +1,8 @@
-from time import sleep
-from selene import browser, be, have
 import os
+from time import sleep
+
+from selene import browser, be, have
+
 from lesson_9.data.users import User
 
 
@@ -29,11 +31,11 @@ class RegistrationPage:
 
     def fill_date_of_birth(self, year, month, day):
         browser.element('#dateOfBirthInput').click()
-        browser.element('.react-datepicker__month-select').click()
-        browser.element('select').element(f'option[value="{month}"]').click()
-        browser.element('.react-datepicker__year-select').click()
-        browser.element(f'option[value="{year}"]').click()
-        browser.element(f'.react-datepicker__day--{day}').click()
+        browser.element('.react-datepicker__month-select').type(month)
+        # browser.element('select').element(f'option[value="{month}"]').click()
+        browser.element('.react-datepicker__year-select').type(year)
+        # browser.element(f'option[value="{year}"]').click()
+        browser.element(f'.react-datepicker__day--0{day}').click()
         return self
 
     def fill_first_name(self, value):
@@ -48,7 +50,7 @@ class RegistrationPage:
         self.user_email.type(value)
         return self
 
-    def select_gender(self,gender):
+    def select_gender(self, gender):
         gender_mapping = {
             "Male": '[for="gender-radio-1"]',
             "Female": '[for="gender-radio-2"]',
@@ -65,7 +67,7 @@ class RegistrationPage:
         browser.element('#subjectsInput').type(value).press_enter()
         return self
 
-    def fill_hobbies(self,hobbies):
+    def fill_hobbies(self, hobbies):
         hobby_mapping = {
             "Sports": '[for="hobbies-checkbox-1"]',
             "Reading": '[for="hobbies-checkbox-2"]',
@@ -80,7 +82,7 @@ class RegistrationPage:
         browser.element('input[type="file"]').set_value(file_path)
         return self
 
-    def fill_address(self,value):
+    def fill_address(self, value):
         browser.element('#currentAddress').type(value)
         return self
 
@@ -112,19 +114,16 @@ class RegistrationPage:
         self.click_submit_button()
         return self
 
-
-
-
-    def should_registered_user_with(self, full_name, email, gender, phone, date_of_birth, language, hobbies, photo, address, city):
+    def should_registered_user_with(self, user: User):
         browser.element('.table').all('td:nth-child(2)').should(have.exact_texts(
-            full_name,
-            email,
-            gender,
-            phone,
-            date_of_birth,
-            language,
-            hobbies,
-            photo,
-            address,
-            city))
+            f'{user.first_name} {user.last_name}',
+            user.email,
+            user.gender,
+            user.phone_number,
+            f'{user.birth_day} {user.birth_month},{user.birth_year}',
+            user.subjects,
+            user.hobbies,
+            user.picture,
+            user.address,
+            f'{user.state} {user.city}'.strip()))
         return self
