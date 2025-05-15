@@ -85,13 +85,11 @@ class RegistrationPage:
         return self
 
     def select_state(self, value):
-        browser.element('#state').click()
-        browser.element('#react-select-3-option-3').click(value)
+        browser.element('#state').click().all("#state div").element_by(have.exact_text(value)).click()
         return self
 
     def select_city(self, value):
-        browser.element('#city').click()
-        browser.element('#react-select-4-option-1').click(value)
+        browser.element('#city').click().all("#city div").element_by(have.exact_text(value)).click()
         return self
 
     def click_submit_button(self):
@@ -103,7 +101,7 @@ class RegistrationPage:
         self.fill_last_name(user.last_name)
         self.fill_email(user.email)
         self.select_gender(user.gender)
-        self.user_phone(user.phone_number)
+        self.fill_user_phone(user.phone_number)
         self.fill_date_of_birth(user.birth_year, user.birth_month, user.birth_day)
         self.fill_subjects(user.subjects)
         self.fill_hobbies(user.hobbies)
