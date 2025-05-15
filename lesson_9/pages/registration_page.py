@@ -1,8 +1,6 @@
 import os
 from time import sleep
-
 from selene import browser, be, have
-
 from lesson_9.data.users import User
 
 
@@ -32,9 +30,7 @@ class RegistrationPage:
     def fill_date_of_birth(self, year, month, day):
         browser.element('#dateOfBirthInput').click()
         browser.element('.react-datepicker__month-select').type(month)
-        # browser.element('select').element(f'option[value="{month}"]').click()
         browser.element('.react-datepicker__year-select').type(year)
-        # browser.element(f'option[value="{year}"]').click()
         browser.element(f'.react-datepicker__day--0{day}').click()
         return self
 
